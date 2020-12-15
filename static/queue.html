@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+
+    <style>
+        body {
+            font-family: Open Sans;
+            font-size: 32px;
+            font-weight: 900;
+            color:#32C3A6;
+            align-items: flex-start;
+            justify-content: start;
+            display: flex;
+            text-shadow: #000000 1.5px 1.5px, #000000 -1.5px 1.5px, #000000 -1.5px -1.5px, #000000 1.5px -1.5px;
+        }
+
+    </style>
+</head>
+
+
+
+<body>
+
+    <div id="content">
+
+    </div>
+
+    <script>
+
+        function RunPolling() {
+
+            //console.log("RunPolling...");
+
+            fetch('/dequeue')
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(json){
+
+                var timeout_time = 200;
+
+                var len = json.length;
+                for (var i = 0; i < len; i++) {
+                    //console.log("RunPolling... Content");
+                    var root_element = document.getElementById("content");
+                    
+                    var div = document.createElement('div');
+                    div.id = json[i].id;
+                    div.innerHTML = json[i].tag;
+
+                    root_element.appendChild(div);
+
+                    window.setTimeout(function(id) {
+                        var element = document.getElementById(id);
+                        element.parentNode.removeChild(element);
+                    }, json[i].timeout, json[i].id);
+
+                    timeout_time = Math.max(timeout_time, json[i].timeout);
+                }
+
+                timeout_time = 200
+
+                window.setTimeout(function(id) {
+                    // refresh again
+                    //console.log("RunPolling... refresh");
+                    RunPolling();
+                }, timeout_time);
+            });
+        }
+
+        //console.log("RunPolling main");
+        RunPolling();
+
+    </script>
+</body>
+
+</html>

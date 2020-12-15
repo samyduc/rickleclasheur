@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+
+
+    <style>
+    #svg circle {
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1s linear;
+    stroke: #666;
+    stroke-width: 1em;
+    }
+    #svg #bar {
+    stroke: #FF9F1E;
+    }
+    #content {
+    display: block;
+    height: 200px;
+    width: 200px;
+    margin: 2em auto;
+    box-shadow: 0 0 1em black;
+    border-radius: 100%;
+    position: relative;
+    transition: opacity .5s;
+    }
+    #content:after {
+    position: absolute;
+    display: block;
+    height: 160px;
+    width: 160px;
+    left: 50%;
+    top: 50%;
+    box-shadow: inset 0 0 1em black;
+    content: attr(data-pct)"%";
+    margin-top: -80px;
+    margin-left: -80px;
+    border-radius: 100%;
+    line-height: 160px;
+    font-size: 2em;
+    text-shadow: 0 0 0.5em black;
+    }
+
+    /* Make things perty */
+    html {  height: 100%;}
+    body { font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;  background-color: #0d0d0d; color: #fff; height: 100%; padding-top: 2em; text-align: center;}
+    h1, h2{ margin: 0; text-transform: uppercase;text-shadow: 0 0 0.5em black;}
+    h2 { font-weight: 300}
+    input { border: 1px solid #666; background: #333; color: #fff; padding: 0.5em; box-shadow: none; outline: none !important; margin: 1em  auto; text-align: center;}
+
+    </style>
+</head>
+
+
+
+<body>
+
+    <div id="content" class="show" data-pct="100">
+        <svg id="svg" width="200" height="200" viewPort="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg">
+            <circle r="90" cx="100" cy="100" fill="transparent" stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
+            <circle id="bar" r="90" cx="100" cy="100" fill="transparent" stroke-dasharray="565.48" stroke-dashoffset="0"></circle>
+        </svg>
+    </div>
+
+
+    <script>
+
+        var g_bIsActive = false;
+
+        
+        function SetVisibility( isActive ) {
+            document.getElementById("content").style.opacity = isActive ? "1.0" : "0.0";
+        }
+
+        function SetPercent( percent ) {
+            var val = percent;
+            var $circle = document.querySelector('#svg #bar');
+            
+            if (isNaN(val)) {
+                val = 100; 
+            }
+            else{
+                var r = $circle.getAttribute('r');
+                var c = Math.PI*(r*2);
+            
+                if (val < 0) { val = 0;}
+                if (val > 100) { val = 100;}
+                
+                var pct = ((100-val)/100)*c;
+                
+                $circle.style.strokeDashoffset = pct
+                //getComputedStyle($circle)[{ strokeDashoffset: pct}];
+                
+                document.querySelector('#content').setAttribute('data-pct',val);
+            }            
+        }
+
+        function CreatePollFromJson( json ) {
+            g_bIsActive = true
+
+            console.log("CreatePollFromJson!", json);
+
+            SetVisibility( g_bIsActive )
+
+            window.setTimeout(function() {     
+                console.log("CreatePollFromJson! timeout expired");
+                g_bIsActive = false;
+                SetVisibility( g_bIsActive );
+            }, json.timeout);           
+        }
+
+        function RunPolling() {
+
+            //console.log("RunPolling...");
+
+            fetch('/hypedequeue')
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(json){
+
+                var timeout_time = 200;
+
+                if( !g_bIsActive && json.votes ) {
+                    CreatePollFromJson( json )
+                }
+
+                if( json.votes ) {
+                    console.log("RunPolling... json !", json);
+
+                    var vote_for = json.votes.clutch;
+                    var vote_against = json.votes.choke;
+
+                    var percent_float = ( vote_for / ( vote_for + vote_against ) * 100 );
+                    var percent = Math.round(percent_float);
+                    SetPercent( percent );
+                }
+
+                window.setTimeout(function(id) {
+                    // refresh again
+                    //console.log("RunPolling... refresh");
+                    RunPolling();
+                }, timeout_time); 
+            });
+        }
+
+        SetVisibility( g_bIsActive )
+
+        //console.log("RunPolling main");
+        RunPolling();
+
+    </script>
+
+</body>
+</html>
