@@ -18,13 +18,10 @@ def get_static_path():
 
 @app.route('/queue', method='POST')
 def queue():
-    body = bottle.request.body.readlines()
+    json = bottle.request.json
 
-    print("pushing content in queue")
-
-    if len(body) > 0:
-        job =json.loads( body[0] )
-        app.queue.put( job )
+    if json:
+        app.queue.put( json )
 
 @app.route('/dequeue')
 def dequeue():
@@ -44,11 +41,10 @@ def dequeue():
 
 @app.route('/hypequeue', method='POST')
 def hypequeue():
-    body = bottle.request.body.readlines()
+    json = bottle.request.json
 
-    if len(body) > 0:
-        job =json.loads( body[0] )
-        app.hypequeue.put( job )
+    if json:
+        app.hypequeue.put( json )
 
 @app.route('/hypedequeue')
 def hypedequeue():
@@ -78,9 +74,31 @@ def test():
     command2["timeout"] = 3000 # ms
     command2["id"] = "content" + app.web_interface.get_next_id()
 
-    app.web_interface.queue.put([command1, command2])
+    app.queue.put([command1, command2])
 
-    return app.web_interface.quack()
+test_votes = {"choke": 0, "clutch": 0}
+
+@app.route('/test_choke')
+def test_choke():
+
+    test_votes["choke"] += 1
+
+    command = {}
+    command["votes"] = test_votes
+    command["timeout"] = 15000 # ms
+
+    app.hypequeue.put(command)
+
+@app.route('/test_clutch')
+def test_choke():
+
+    test_votes["clutch"] += 1
+
+    command = {}
+    command["votes"] = test_votes
+    command["timeout"] = 15000 # ms
+
+    app.hypequeue.put(command)
 
 @app.route('/static/<filepath:path>')
 def server_static(filepath):
