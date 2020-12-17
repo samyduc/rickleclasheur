@@ -41,7 +41,6 @@ class DialogEngine(object):
 
         self.customResponseOnTrigger = {
             "hasemal": [ "@Hasemal u sad n lonely boy" ],
-            "JSavageW" : [ "Mesryah t'aime, graou." ]
         }
 
         self.personal_text = [

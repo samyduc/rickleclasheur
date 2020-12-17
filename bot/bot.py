@@ -10,6 +10,7 @@ import secrets
 from . import web
 
 from . import voter
+from . import question
 
 import time
 from datetime import datetime
@@ -25,6 +26,10 @@ class Channel(object):
         self.to_greets_wait_time = 120
 
         self.hype_voter = voter.Voter(30, ["clutch", "choke"])
+        self.hype_voter.is_unique_vote = False
+
+        self.question = question.Question()
+        self.question.load_question( {'Pas très aimé des citadins, enfants et vieux aiment l’attirer, il peuple pourtant toits et jardins, des escrocs, il est le jouet.' : 'pigeon' } )
 
     def greet_add(self, user):
         if self.to_greets_time == 0 :
@@ -61,7 +66,7 @@ class Bot(object):
         self.commands_text = {
             "joke" : ("@Poupia <-> @JokeeV2 pas touche",),
             "poupia" : ("@JokeeV2 <-> @Poupia pas touche",),
-            "dimdim_be" : ("Lord of the Internets, Master of Javascript", "image://images/js.gif"),
+            "dimdim_be" : ( "script://cmd_dimdim_be", "image://images/js.gif"),
             "rick" : ("rickkk leeee sauceurrrr", "sound://sounds/ricklesauceur.ogg", "text://rickkkkkk"),
             "taff" : ("https://cutt.ly/QhnzoKU",),
             "job" : ("https://cutt.ly/QhnzoKU",),
@@ -77,6 +82,7 @@ class Bot(object):
             "discord" : ("Rejoins nous https://discord.gg/UWx4S7zJMF", "image://images/discord.gif"),
             "kiki" : ("PokPikachu PokPikachu PokPikachu", "image://images/pika.gif", ),
             "sad" : ("image://images/sadbruce.gif", ),
+            "ban" : ("image://images/ban.gif", ),
             "jerrygoal" : ("image://images/dowie.gif", "Jerrygoal est comme son pseudo mais on le tolere"),
             "droucks500" : ("image://images/gt500.gif", ),
             "sauce" : ("", ),
@@ -87,6 +93,7 @@ class Bot(object):
             "cmd" : ("script://cmd_list", ),
             "test" : ("script://cmd_test", ),
             "greetjoin" : ("script://cmd_greetjoin", ),
+            "question" : ("script://cmd_question", ),
         }
 
         #self.audio_interface = audio.SoundInterface()
@@ -129,8 +136,7 @@ class Bot(object):
             self.web_interface.display_text(text, 5)
 
             channel.greet_clear()
-       
-        
+
     def on_join(self, target, source):
         self.process_user(target, source)
 
@@ -143,6 +149,8 @@ class Bot(object):
         if message.startswith("!"):
             commands = self.process_command(target, source, message)
         else:
+            self.helper_answer_question(target, source, message)
+
             commands = self.dialog_engine.process(source, message)
 
         if commands:
@@ -223,6 +231,42 @@ class Bot(object):
 
     def cmd_vote_choke(self, target, source, message):
         self.helper_vote(target, source, "choke")
+
+    def cmd_dimdim_be(self, target, source, message):
+        if source == "dimdim_be":
+            self.send_message(target, "Lord of the Internets, Master of Javascript")
+        else:
+            self.send_message(target, "Un mec qui se la pete")
+
+    def cmd_question(self, target, source, message):
+        channel = self.channels[target]
+
+        default_duration = 60
+        question = channel.question.get_current_question()
+
+        is_notif_web = False
+        if channel.question.is_question_running() == False:
+            question = channel.question.ask_question(default_duration)
+            is_notif_web = True
+            
+        text = "@{} : {} , (vous avez {:.2f}s restantes)".format( source, question, channel.question.get_remaining_duration() )
+        self.send_message(target, text)
+
+        if is_notif_web:
+            self.web_interface.display_text(text, 10)
+
+    def helper_answer_question(self, target, source, message):
+        channel = self.channels[target]
+
+        if channel.question.is_question_running() == False:
+            return
+
+        elapsed_time = channel.question.get_elapsed_duration()
+
+        if channel.question.try_question(source, message):
+            text = "@{} WIN en {:.2f}s avec {}".format( source, elapsed_time, message )
+            self.send_message(target, text)
+            self.web_interface.display_text(text, 10)
 
     def helper_vote(self, target, source, tag):
         channel = self.channels[target]

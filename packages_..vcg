@@ -1,0 +1,384 @@
+graph:{
+  title:"packages_."
+  layoutalgorithm:dfs
+  late_edge_labels:yes
+  port_sharing:no
+  manhattan_edges:yes
+  node: {title:"0"  label:"\fb__init__\fn"
+  shape:box
+}
+  node: {title:"1"  label:"\fbencodings\fn"
+  shape:box
+}
+  node: {title:"2"  label:"\fbencodings.aliases\fn"
+  shape:box
+}
+  node: {title:"3"  label:"\fbencodings.ascii\fn"
+  shape:box
+}
+  node: {title:"4"  label:"\fbencodings.base64_codec\fn"
+  shape:box
+}
+  node: {title:"5"  label:"\fbencodings.big5\fn"
+  shape:box
+}
+  node: {title:"6"  label:"\fbencodings.big5hkscs\fn"
+  shape:box
+}
+  node: {title:"7"  label:"\fbencodings.bz2_codec\fn"
+  shape:box
+}
+  node: {title:"8"  label:"\fbencodings.charmap\fn"
+  shape:box
+}
+  node: {title:"9"  label:"\fbencodings.cp037\fn"
+  shape:box
+}
+  node: {title:"10"  label:"\fbencodings.cp1006\fn"
+  shape:box
+}
+  node: {title:"11"  label:"\fbencodings.cp1026\fn"
+  shape:box
+}
+  node: {title:"12"  label:"\fbencodings.cp1125\fn"
+  shape:box
+}
+  node: {title:"13"  label:"\fbencodings.cp1140\fn"
+  shape:box
+}
+  node: {title:"14"  label:"\fbencodings.cp1250\fn"
+  shape:box
+}
+  node: {title:"15"  label:"\fbencodings.cp1251\fn"
+  shape:box
+}
+  node: {title:"16"  label:"\fbencodings.cp1252\fn"
+  shape:box
+}
+  node: {title:"17"  label:"\fbencodings.cp1253\fn"
+  shape:box
+}
+  node: {title:"18"  label:"\fbencodings.cp1254\fn"
+  shape:box
+}
+  node: {title:"19"  label:"\fbencodings.cp1255\fn"
+  shape:box
+}
+  node: {title:"20"  label:"\fbencodings.cp1256\fn"
+  shape:box
+}
+  node: {title:"21"  label:"\fbencodings.cp1257\fn"
+  shape:box
+}
+  node: {title:"22"  label:"\fbencodings.cp1258\fn"
+  shape:box
+}
+  node: {title:"23"  label:"\fbencodings.cp273\fn"
+  shape:box
+}
+  node: {title:"24"  label:"\fbencodings.cp424\fn"
+  shape:box
+}
+  node: {title:"25"  label:"\fbencodings.cp437\fn"
+  shape:box
+}
+  node: {title:"26"  label:"\fbencodings.cp500\fn"
+  shape:box
+}
+  node: {title:"27"  label:"\fbencodings.cp720\fn"
+  shape:box
+}
+  node: {title:"28"  label:"\fbencodings.cp737\fn"
+  shape:box
+}
+  node: {title:"29"  label:"\fbencodings.cp775\fn"
+  shape:box
+}
+  node: {title:"30"  label:"\fbencodings.cp850\fn"
+  shape:box
+}
+  node: {title:"31"  label:"\fbencodings.cp852\fn"
+  shape:box
+}
+  node: {title:"32"  label:"\fbencodings.cp855\fn"
+  shape:box
+}
+  node: {title:"33"  label:"\fbencodings.cp856\fn"
+  shape:box
+}
+  node: {title:"34"  label:"\fbencodings.cp857\fn"
+  shape:box
+}
+  node: {title:"35"  label:"\fbencodings.cp858\fn"
+  shape:box
+}
+  node: {title:"36"  label:"\fbencodings.cp860\fn"
+  shape:box
+}
+  node: {title:"37"  label:"\fbencodings.cp861\fn"
+  shape:box
+}
+  node: {title:"38"  label:"\fbencodings.cp862\fn"
+  shape:box
+}
+  node: {title:"39"  label:"\fbencodings.cp863\fn"
+  shape:box
+}
+  node: {title:"40"  label:"\fbencodings.cp864\fn"
+  shape:box
+}
+  node: {title:"41"  label:"\fbencodings.cp865\fn"
+  shape:box
+}
+  node: {title:"42"  label:"\fbencodings.cp866\fn"
+  shape:box
+}
+  node: {title:"43"  label:"\fbencodings.cp869\fn"
+  shape:box
+}
+  node: {title:"44"  label:"\fbencodings.cp874\fn"
+  shape:box
+}
+  node: {title:"45"  label:"\fbencodings.cp875\fn"
+  shape:box
+}
+  node: {title:"46"  label:"\fbencodings.cp932\fn"
+  shape:box
+}
+  node: {title:"47"  label:"\fbencodings.cp949\fn"
+  shape:box
+}
+  node: {title:"48"  label:"\fbencodings.cp950\fn"
+  shape:box
+}
+  node: {title:"49"  label:"\fbencodings.euc_jis_2004\fn"
+  shape:box
+}
+  node: {title:"50"  label:"\fbencodings.euc_jisx0213\fn"
+  shape:box
+}
+  node: {title:"51"  label:"\fbencodings.euc_jp\fn"
+  shape:box
+}
+  node: {title:"52"  label:"\fbencodings.euc_kr\fn"
+  shape:box
+}
+  node: {title:"53"  label:"\fbencodings.gb18030\fn"
+  shape:box
+}
+  node: {title:"54"  label:"\fbencodings.gb2312\fn"
+  shape:box
+}
+  node: {title:"55"  label:"\fbencodings.gbk\fn"
+  shape:box
+}
+  node: {title:"56"  label:"\fbencodings.hex_codec\fn"
+  shape:box
+}
+  node: {title:"57"  label:"\fbencodings.hp_roman8\fn"
+  shape:box
+}
+  node: {title:"58"  label:"\fbencodings.hz\fn"
+  shape:box
+}
+  node: {title:"59"  label:"\fbencodings.idna\fn"
+  shape:box
+}
+  node: {title:"60"  label:"\fbencodings.iso2022_jp\fn"
+  shape:box
+}
+  node: {title:"61"  label:"\fbencodings.iso2022_jp_1\fn"
+  shape:box
+}
+  node: {title:"62"  label:"\fbencodings.iso2022_jp_2\fn"
+  shape:box
+}
+  node: {title:"63"  label:"\fbencodings.iso2022_jp_2004\fn"
+  shape:box
+}
+  node: {title:"64"  label:"\fbencodings.iso2022_jp_3\fn"
+  shape:box
+}
+  node: {title:"65"  label:"\fbencodings.iso2022_jp_ext\fn"
+  shape:box
+}
+  node: {title:"66"  label:"\fbencodings.iso2022_kr\fn"
+  shape:box
+}
+  node: {title:"67"  label:"\fbencodings.iso8859_1\fn"
+  shape:box
+}
+  node: {title:"68"  label:"\fbencodings.iso8859_10\fn"
+  shape:box
+}
+  node: {title:"69"  label:"\fbencodings.iso8859_11\fn"
+  shape:box
+}
+  node: {title:"70"  label:"\fbencodings.iso8859_13\fn"
+  shape:box
+}
+  node: {title:"71"  label:"\fbencodings.iso8859_14\fn"
+  shape:box
+}
+  node: {title:"72"  label:"\fbencodings.iso8859_15\fn"
+  shape:box
+}
+  node: {title:"73"  label:"\fbencodings.iso8859_16\fn"
+  shape:box
+}
+  node: {title:"74"  label:"\fbencodings.iso8859_2\fn"
+  shape:box
+}
+  node: {title:"75"  label:"\fbencodings.iso8859_3\fn"
+  shape:box
+}
+  node: {title:"76"  label:"\fbencodings.iso8859_4\fn"
+  shape:box
+}
+  node: {title:"77"  label:"\fbencodings.iso8859_5\fn"
+  shape:box
+}
+  node: {title:"78"  label:"\fbencodings.iso8859_6\fn"
+  shape:box
+}
+  node: {title:"79"  label:"\fbencodings.iso8859_7\fn"
+  shape:box
+}
+  node: {title:"80"  label:"\fbencodings.iso8859_8\fn"
+  shape:box
+}
+  node: {title:"81"  label:"\fbencodings.iso8859_9\fn"
+  shape:box
+}
+  node: {title:"82"  label:"\fbencodings.johab\fn"
+  shape:box
+}
+  node: {title:"83"  label:"\fbencodings.koi8_r\fn"
+  shape:box
+}
+  node: {title:"84"  label:"\fbencodings.koi8_t\fn"
+  shape:box
+}
+  node: {title:"85"  label:"\fbencodings.koi8_u\fn"
+  shape:box
+}
+  node: {title:"86"  label:"\fbencodings.kz1048\fn"
+  shape:box
+}
+  node: {title:"87"  label:"\fbencodings.latin_1\fn"
+  shape:box
+}
+  node: {title:"88"  label:"\fbencodings.mac_arabic\fn"
+  shape:box
+}
+  node: {title:"89"  label:"\fbencodings.mac_croatian\fn"
+  shape:box
+}
+  node: {title:"90"  label:"\fbencodings.mac_cyrillic\fn"
+  shape:box
+}
+  node: {title:"91"  label:"\fbencodings.mac_farsi\fn"
+  shape:box
+}
+  node: {title:"92"  label:"\fbencodings.mac_greek\fn"
+  shape:box
+}
+  node: {title:"93"  label:"\fbencodings.mac_iceland\fn"
+  shape:box
+}
+  node: {title:"94"  label:"\fbencodings.mac_latin2\fn"
+  shape:box
+}
+  node: {title:"95"  label:"\fbencodings.mac_roman\fn"
+  shape:box
+}
+  node: {title:"96"  label:"\fbencodings.mac_romanian\fn"
+  shape:box
+}
+  node: {title:"97"  label:"\fbencodings.mac_turkish\fn"
+  shape:box
+}
+  node: {title:"98"  label:"\fbencodings.mbcs\fn"
+  shape:box
+}
+  node: {title:"99"  label:"\fbencodings.oem\fn"
+  shape:box
+}
+  node: {title:"100"  label:"\fbencodings.palmos\fn"
+  shape:box
+}
+  node: {title:"101"  label:"\fbencodings.ptcp154\fn"
+  shape:box
+}
+  node: {title:"102"  label:"\fbencodings.punycode\fn"
+  shape:box
+}
+  node: {title:"103"  label:"\fbencodings.quopri_codec\fn"
+  shape:box
+}
+  node: {title:"104"  label:"\fbencodings.raw_unicode_escape\fn"
+  shape:box
+}
+  node: {title:"105"  label:"\fbencodings.rot_13\fn"
+  shape:box
+}
+  node: {title:"106"  label:"\fbencodings.shift_jis\fn"
+  shape:box
+}
+  node: {title:"107"  label:"\fbencodings.shift_jis_2004\fn"
+  shape:box
+}
+  node: {title:"108"  label:"\fbencodings.shift_jisx0213\fn"
+  shape:box
+}
+  node: {title:"109"  label:"\fbencodings.tis_620\fn"
+  shape:box
+}
+  node: {title:"110"  label:"\fbencodings.undefined\fn"
+  shape:box
+}
+  node: {title:"111"  label:"\fbencodings.unicode_escape\fn"
+  shape:box
+}
+  node: {title:"112"  label:"\fbencodings.utf_16\fn"
+  shape:box
+}
+  node: {title:"113"  label:"\fbencodings.utf_16_be\fn"
+  shape:box
+}
+  node: {title:"114"  label:"\fbencodings.utf_16_le\fn"
+  shape:box
+}
+  node: {title:"115"  label:"\fbencodings.utf_32\fn"
+  shape:box
+}
+  node: {title:"116"  label:"\fbencodings.utf_32_be\fn"
+  shape:box
+}
+  node: {title:"117"  label:"\fbencodings.utf_32_le\fn"
+  shape:box
+}
+  node: {title:"118"  label:"\fbencodings.utf_7\fn"
+  shape:box
+}
+  node: {title:"119"  label:"\fbencodings.utf_8\fn"
+  shape:box
+}
+  node: {title:"120"  label:"\fbencodings.utf_8_sig\fn"
+  shape:box
+}
+  node: {title:"121"  label:"\fbencodings.uu_codec\fn"
+  shape:box
+}
+  node: {title:"122"  label:"\fbencodings.zlib_codec\fn"
+  shape:box
+}
+  edge: {sourcename:"0" targetname:"98"  arrowstyle:solid
+  backarrowstyle:none
+  backarrowsize:0
+}
+  edge: {sourcename:"1" targetname:"98"  arrowstyle:solid
+  backarrowstyle:none
+  backarrowsize:0
+}
+}

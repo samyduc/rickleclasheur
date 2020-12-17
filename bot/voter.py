@@ -8,6 +8,7 @@ class Voter(object):
         self.votes = dict.fromkeys(tags)
         self.start_time = 0
         self.duration = default_duration
+        self.is_unique_vote = True
 
     def reset(self):
         self.voters = set()
@@ -28,8 +29,9 @@ class Voter(object):
         if self.start_time == 0 or self.get_duration() >= self.duration:
             self.restart()
 
-        if id in self.voters:
-            return False
+        if self.is_unique_vote:
+            if id in self.voters:
+                return False
 
         if tag in self.votes:
             self.votes[tag] += 1
