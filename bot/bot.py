@@ -28,8 +28,29 @@ class Channel(object):
         self.hype_voter = voter.Voter(30, ["clutch", "choke"])
         self.hype_voter.is_unique_vote = False
 
-        self.question = question.Question()
-        self.question.load_question( {'Pas très aimé des citadins, enfants et vieux aiment l’attirer, il peuple pourtant toits et jardins, des escrocs, il est le jouet.' : 'pigeon' } )
+        self.questioner = question.Questioner()
+        self.questioner.load_questions(
+            Question(
+                'Pas très aimé des citadins, enfants et vieux aiment l’attirer, il peuple pourtant toits et jardins, des escrocs, il est le jouet.',
+                'pigeon'
+            ),
+            Question(
+                'Mûr à point, l’été il est fauché, fauché, on l’est de n’en point avoir.',
+                'Le blé'
+            ),
+            Question(
+                'C’est un petit air léger qui nous ravit l’été, sans « R », elle est glaciale, car plutôt hivernale.',
+                'La brise'
+            ),
+            Question(
+                'On la tourne pour avancer, mais quand on l’est, cela signifie « être branché ».',
+                'La page'
+            ),
+            Question(
+                'C’est la partie intégrante d’un pont, le rendre, c’est en avoir ras le bol, contre les taches, c’est une protection.',
+                'Le tablier'
+            )
+        )
 
     def greet_add(self, user):
         if self.to_greets_time == 0 :
@@ -242,14 +263,13 @@ class Bot(object):
         channel = self.channels[target]
 
         default_duration = 60
-        question = channel.question.get_current_question()
-
-        is_notif_web = False
-        if channel.question.is_question_running() == False:
-            question = channel.question.ask_question(default_duration)
+        if not channel.questioner.is_question_running():
+            question = channel.questioner.ask_question(default_duration)
             is_notif_web = True
+        else:
+            question = channel.questioner.current_question
             
-        text = "@{} : {} , (vous avez {:.2f}s restantes)".format( source, question, channel.question.get_remaining_duration() )
+        text = "@{} : {} , (vous avez {:.2f}s restantes)".format( source, question.question, channel.questioner.get_remaining_duration() )
         self.send_message(target, text)
 
         if is_notif_web:
@@ -258,12 +278,12 @@ class Bot(object):
     def helper_answer_question(self, target, source, message):
         channel = self.channels[target]
 
-        if channel.question.is_question_running() == False:
+        if not channel.questioner.is_question_running():
             return
 
-        elapsed_time = channel.question.get_elapsed_duration()
+        elapsed_time = channel.questioner.get_elapsed_duration()
 
-        if channel.question.try_question(source, message):
+        if channel.questioner.try_question(source, message):
             text = "@{} WIN en {:.2f}s avec {}".format( source, elapsed_time, message )
             self.send_message(target, text)
             self.web_interface.display_text(text, 10)
