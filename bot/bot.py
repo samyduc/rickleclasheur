@@ -268,6 +268,9 @@ class Bot(object):
             is_notif_web = True
         else:
             question = channel.questioner.current_question
+            is_notif_web = False
+        if question is None:
+            return
             
         text = "@{} : {} , (vous avez {:.2f}s restantes)".format( source, question.question, channel.questioner.get_remaining_duration() )
         self.send_message(target, text)
