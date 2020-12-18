@@ -21,7 +21,7 @@ class Bot(object):
         self.irc_interface = None
         #self.audio_interface = audio.SoundInterface()
         self.web_interface = web.WebInterface()
-        self.twitch_interface = twitch.TwitchInterface( twitch_secret.USERNAME, "ricklesauceur", twitch_secret.APP_ID, twitch_secret.APP_TOKEN )
+        self.twitch_interface = twitch.TwitchInterface( twitch_secret.USERNAME, "ricklesauceur", twitch_secret.APP_ID, twitch_secret.APP_TOKEN, twitch_secret.USER_CODE )
         self.twitch_interface.setup_credentials()
         self.twitch_interface.setup_stream_info()
 

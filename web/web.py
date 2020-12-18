@@ -104,7 +104,7 @@ def test_choke():
 def server_static(filepath):
     return bottle.static_file(filepath, root=get_static_path())
 
-
+# certfile='./static/MyCert.pem', keyfile='./static/key.pem'
 def run():
     bottle.run(app, host='localhost', port=8080, debug=True, reloader=False)
 
