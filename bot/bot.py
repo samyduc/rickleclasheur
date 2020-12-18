@@ -1,86 +1,25 @@
 
 
-from . import events
+from .interface import events
 import random
 
-from . import dialog
+from .addon import dialog
 import secrets
 
 #from . import audio
-from . import web
-
-from . import voter
-from . import question
+from .interface import web
+from .interface import twitch
+from .channel import Channel
 
 import time
 from datetime import datetime
 
-
-class Channel(object):
-    def __init__(self, name):
-        self.name = name
-        self.users = {}
-
-        self.to_greets_time = 0
-        self.to_greets = []
-        self.to_greets_wait_time = 120
-
-        self.hype_voter = voter.Voter(30, ["clutch", "choke"])
-        self.hype_voter.is_unique_vote = False
-
-        self.questioner = question.Questioner()
-        self.questioner.load_questions(
-            Question(
-                'Pas très aimé des citadins, enfants et vieux aiment l’attirer, il peuple pourtant toits et jardins, des escrocs, il est le jouet.',
-                'pigeon'
-            ),
-            Question(
-                'Mûr à point, l’été il est fauché, fauché, on l’est de n’en point avoir.',
-                'Le blé'
-            ),
-            Question(
-                'C’est un petit air léger qui nous ravit l’été, sans « R », elle est glaciale, car plutôt hivernale.',
-                'La brise'
-            ),
-            Question(
-                'On la tourne pour avancer, mais quand on l’est, cela signifie « être branché ».',
-                'La page'
-            ),
-            Question(
-                'C’est la partie intégrante d’un pont, le rendre, c’est en avoir ras le bol, contre les taches, c’est une protection.',
-                'Le tablier'
-            )
-        )
-
-    def greet_add(self, user):
-        if self.to_greets_time == 0 :
-            self.to_greets_time = time.time()
-        self.to_greets.append( user )
-
-    def greet_clear(self):
-        self.to_greets = []
-        self.to_greets_time = 0
-
-    def greet(self):
-        if self.to_greets_time == 0:
-            return []
-
-        current_time = time.time()
-        diff = current_time - self.to_greets_time
-
-        if( diff >= self.to_greets_wait_time ):
-            return self.to_greets
-        return []
-
-
-class User(object):
-    def __init__(self, name):
-        self.name = name
-        self.join_time = time.time()
-
 class Bot(object):
     def __init__(self):
-        self.connectors = []
+        self.irc_interface = None
+        #self.audio_interface = audio.SoundInterface()
+        self.web_interface = web.WebInterface()
+        self.twitch_interface = twitch.TwitchInterface()
 
         self.dialog_engine = dialog.DialogEngine( secrets.twitch.USERNAME )
 
@@ -112,22 +51,12 @@ class Bot(object):
             "hello": ("script://cmd_hello", ),
             "time": ("script://cmd_time", ),
             "cmd" : ("script://cmd_list", ),
-            "test" : ("script://cmd_test", ),
+            "demo" : ("script://cmd_demo", ),
             "greetjoin" : ("script://cmd_greetjoin", ),
             "question" : ("script://cmd_question", ),
         }
 
-        #self.audio_interface = audio.SoundInterface()
-        self.web_interface = web.WebInterface()
-
         self.channels = {}
-
-    def add_connector(self, connector):
-        self.connectors.append(connector)
-
-    def send_message(self, target, message):
-        for connector in self.connectors:
-            connector.send_message(target, message)
 
     def process_user(self, target, source):
         if target not in self.channels:
@@ -136,12 +65,10 @@ class Bot(object):
         channel = self.channels[target]
 
         if source not in channel.users:
-            user = User(source)
-            channel.users[source] = user
-            channel.greet_add(user)
+            channel.add_user(source)
             #self.on_public_message(target, source, "!greetjoin")
 
-        self.process_greet( channel )
+            self.process_greet( channel )
 
     def process_greet( self, channel ):
         to_greet = channel.greet()
@@ -153,7 +80,7 @@ class Bot(object):
             for user in to_greet:
                 text = text + "@{} ".format( user.name )
 
-            self.send_message( channel.name, text )
+            self.irc_interface.send_message( channel.name, text )
             self.web_interface.display_text(text, 5)
 
             channel.greet_clear()
@@ -194,7 +121,7 @@ class Bot(object):
                 text = command[len("text://"):]
                 self.web_interface.display_text(text, 5)
             else:
-                self.send_message( target, command )
+                self.irc_interface.send_message( target, command )
 
         self.web_interface.flush_events()
 
@@ -216,11 +143,11 @@ class Bot(object):
             response = response + "!" + key + " "
 
         if response:
-            self.send_message( target, response )
+            self.irc_interface.send_message( target, response )
 
     def cmd_time(self, target, source, message):
         time_str = datetime.today().strftime('%H:%M:%S - %d/%m/%Y')
-        self.send_message( target, time_str )
+        self.irc_interface.send_message( target, time_str )
 
     def cmd_hello(self, target, source, message):
 
@@ -229,22 +156,17 @@ class Bot(object):
         text = "@{}: Hello {}".format(source, ", ".join(message_split[1:]))
         self.web_interface.display_text(text, 5)
 
-    def cmd_test(self, target, source, message):
-        self.on_public_message(target, source, "!botjoin")
+    def cmd_demo(self, target, source, message):
+        self.on_public_message(target, source, "!hello @Maisyx")
+        self.on_public_message(target, source, "!rick")
         self.on_public_message(target, source, "!clutch")
-        self.on_public_message(target, source, "!choke")
-        self.on_public_message(target, source, "!int")
-        self.on_public_message(target, source, "!hello @Maisyzx")
-        self.on_public_message(target, source, "!clutch")
-        self.on_public_message(target, source, "!choke")
-        self.on_public_message(target, source, "!int")
-        self.on_public_message(target, source, "!hello @Maisyzx")
+        self.on_public_message(target, source, "!ban")
 
     def cmd_greetjoin(self, target, source, message):
 
         text = "Bienvenue sur le chat @{} !".format( source )
 
-        self.send_message( target, text )
+        self.irc_interface.send_message( target, text )
         self.web_interface.display_text(text, 5)
 
     def cmd_vote_clutch(self, target, source, message):
@@ -255,9 +177,9 @@ class Bot(object):
 
     def cmd_dimdim_be(self, target, source, message):
         if source == "dimdim_be":
-            self.send_message(target, "Lord of the Internets, Master of Javascript")
+            self.irc_interface.send_message(target, "Lord of the Internets, Master of Javascript")
         else:
-            self.send_message(target, "Un mec qui se la pete")
+            self.irc_interface.send_message(target, "Un mec qui se la pete")
 
     def cmd_question(self, target, source, message):
         channel = self.channels[target]
@@ -271,9 +193,9 @@ class Bot(object):
             is_notif_web = False
         if question is None:
             return
-            
+         
         text = "@{} : {} , (vous avez {:.2f}s restantes)".format( source, question.question, channel.questioner.get_remaining_duration() )
-        self.send_message(target, text)
+        self.irc_interface.send_message(target, text)
 
         if is_notif_web:
             self.web_interface.display_text(text, 10)
@@ -288,7 +210,7 @@ class Bot(object):
 
         if channel.questioner.try_question(source, message):
             text = "@{} WIN en {:.2f}s avec {}".format( source, elapsed_time, message )
-            self.send_message(target, text)
+            self.irc_interface.send_message(target, text)
             self.web_interface.display_text(text, 10)
 
     def helper_vote(self, target, source, tag):
@@ -299,6 +221,5 @@ class Bot(object):
             self.web_interface.send_votes(channel.hype_voter.votes, channel.hype_voter.duration)
 
     def start(self):
-        for connector in self.connectors:
-            connector.add_handler(events.Events.ON_JOIN, self.on_join)
-            connector.add_handler(events.Events.ON_PUBLIC_MESSAGE, self.on_public_message)
+        self.irc_interface.add_handler(events.Events.ON_JOIN, self.on_join)
+        self.irc_interface.add_handler(events.Events.ON_PUBLIC_MESSAGE, self.on_public_message)

@@ -1,7 +1,7 @@
 
 
-import bot.ircconnector
-import bot.bot
+from bot.interface import  irc
+from bot import bot
 import secrets.twitch
 
 
@@ -13,11 +13,11 @@ if __name__ == "__main__":
     token     = secrets.twitch.OAUTH_TOKEN
     channels = [ "ricklesauceur" ]
 
-    irc = bot.ircconnector.IRCConnector(username, app_id, token, channels)
+    irc = irc.IRCInterface(username, app_id, token, channels)
     irc.start()
 
-    bot = bot.bot.Bot()
-    bot.add_connector(irc)
+    bot = bot.Bot()
+    bot.irc_interface = irc
 
     bot.start()
 

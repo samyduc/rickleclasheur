@@ -19,6 +19,7 @@ class Question(object):
 class Questioner(object):
     def __init__(self):
         self.winner = None
+        self.questions = set()
         # The set of questions not asked yet
         self._available_questions = set()
         # The set of questions already asked
