@@ -15,6 +15,29 @@ class Channel(object):
         self.hype_voter.is_unique_vote = False
 
         self.questioner = question.Questioner()
+
+        self.questioner.load_questions((
+            question.Question(
+                'Pas très aimé des citadins, enfants et vieux aiment l’attirer, il peuple pourtant toits et jardins, des escrocs, il est le jouet.',
+                'pigeon'
+            ),
+            question.Question(
+                'Mûr à point, l’été il est fauché, fauché, on l’est de n’en point avoir.',
+                'Le blé'
+            ),
+            question.Question(
+                'C’est un petit air léger qui nous ravit l’été, sans « R », elle est glaciale, car plutôt hivernale.',
+                'La brise'
+            ),
+            question.Question(
+                'On la tourne pour avancer, mais quand on l’est, cela signifie « être branché ».',
+                'La page'
+            ),
+            question.Question(
+                'C’est la partie intégrante d’un pont, le rendre, c’est en avoir ras le bol, contre les taches, c’est une protection.',
+                'Le tablier'
+            )
+        ))
         #self.greeter = greeter.Greeter()
         self.greeter = None
 
@@ -29,30 +52,6 @@ class Channel(object):
         if self.greeter:
             return self.greeter.greet()
         return [] 
-
-        #self.questioner.load_questions(
-        #    { question.Question(
-        #        'Pas très aimé des citadins, enfants et vieux aiment l’attirer, il peuple pourtant toits et jardins, des escrocs, il est le jouet.',
-        #        'pigeon'
-        #    ),
-        #    question.Question(
-        #        'Mûr à point, l’été il est fauché, fauché, on l’est de n’en point avoir.',
-        #        'Le blé'
-        #    ),
-        #    question.Question(
-        #        'C’est un petit air léger qui nous ravit l’été, sans « R », elle est glaciale, car plutôt hivernale.',
-        #        'La brise'
-        #    ),
-        #    question.Question(
-        #        'On la tourne pour avancer, mais quand on l’est, cela signifie « être branché ».',
-        #        'La page'
-        #    ),
-        #    question.Question(
-        #        'C’est la partie intégrante d’un pont, le rendre, c’est en avoir ras le bol, contre les taches, c’est une protection.',
-        #        'Le tablier'
-        #    ) }
-        #)
-        ###
 
 
 class User(object):

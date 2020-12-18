@@ -19,11 +19,10 @@ class Question(object):
 class Questioner(object):
     def __init__(self):
         self.winner = None
-        self.questions = set()
+        # The set of questions the questionner has
+        self._questions = set()
         # The set of questions not asked yet
         self._available_questions = set()
-        # The set of questions already asked
-        self._asked_questions = set()
         # The current question
         self.current_question = None
         now = time.monotonic()
@@ -36,9 +35,8 @@ class Questioner(object):
         return self.current_question is not None and not self.is_timer_expired()
 
     def load_questions(self, db):
-        self.questions = self.questions | db
-        self.available_questions.clear()
-        self.available_questions = list(self.questions.keys())
+        self._questions |= set(db)
+        self._available_questions |= set(db)
 
     def ask_question(self, duration):
         if len(self._available_questions) == 0:
@@ -46,7 +44,6 @@ class Questioner(object):
         question = random.choice(tuple(self._available_questions))
         self.current_question = question
         self._available_questions.remove(question)
-        self._asked_questions.add(question)
         now = time.monotonic()
         self._asked_time = now
         self._expiration = now + duration
@@ -70,13 +67,12 @@ class Questioner(object):
             self.stop_question(None)
             return False
 
-        if answer == self.answer:
+        if answer == self.current_question.answer:
             self.stop_question(source)
             return True
 
         return False
 
     def reset(self):
-        self._available_questions |= self._asked_questions
-        self._asked_questions.clear()
+        self._available_questions |= self._questions
         self._current_question = None
