@@ -11,6 +11,8 @@ from .interface import web
 from .interface import twitch
 from .channel import Channel
 
+from secrets import twitch as twitch_secret
+
 import time
 from datetime import datetime
 
@@ -19,7 +21,9 @@ class Bot(object):
         self.irc_interface = None
         #self.audio_interface = audio.SoundInterface()
         self.web_interface = web.WebInterface()
-        self.twitch_interface = twitch.TwitchInterface()
+        self.twitch_interface = twitch.TwitchInterface( twitch_secret.USERNAME, "ricklesauceur", twitch_secret.APP_ID, twitch_secret.APP_TOKEN )
+        self.twitch_interface.setup_credentials()
+        self.twitch_interface.setup_stream_info()
 
         self.dialog_engine = dialog.DialogEngine( secrets.twitch.USERNAME )
 
@@ -54,6 +58,7 @@ class Bot(object):
             "demo" : ("script://cmd_demo", ),
             "greetjoin" : ("script://cmd_greetjoin", ),
             "question" : ("script://cmd_question", ),
+            "clip": ("script://cmd_clip", )
         }
 
         self.channels = {}
@@ -199,6 +204,10 @@ class Bot(object):
 
         if is_notif_web:
             self.web_interface.display_text(text, 10)
+
+    def cmd_clip(self, target, source, message):
+        self.twitch_interface.create_clip()
+
 
     def helper_answer_question(self, target, source, message):
         channel = self.channels[target]
