@@ -15,6 +15,7 @@ from secrets import twitch as twitch_secret
 
 import time
 from datetime import datetime
+import json
 
 class Bot(object):
     def __init__(self):
@@ -44,6 +45,7 @@ class Bot(object):
             "streamer" : ("sound://sounds/ricklestreamer.ogg", "Rickkk le streameer"),
             "boomer" : ("sound://sounds/rickleboomer.ogg", "Rickkk le boomerrrr", "image://images/doc.gif"),
             "discord" : ("Rejoins nous https://discord.gg/UWx4S7zJMF", "image://images/discord.gif"),
+            "github" : ("https://github.com/samyduc/rickleclasheur", ),
             "kiki" : ("PokPikachu PokPikachu PokPikachu", "image://images/pika.gif", ),
             "sad" : ("image://images/sadbruce.gif", ),
             "ban" : ("image://images/ban.gif", ),
@@ -58,7 +60,10 @@ class Bot(object):
             "demo" : ("script://cmd_demo", ),
             "greetjoin" : ("script://cmd_greetjoin", ),
             "question" : ("script://cmd_question", ),
-            "clip": ("script://cmd_clip", )
+            "clip": ("script://cmd_clip", ),
+            "marker": ("script://cmd_marker", ),
+            "settitle": ("script://cmd_settitle", ),
+            "setgame": ("script://cmd_setgame", ),
         }
 
         self.channels = {}
@@ -206,8 +211,29 @@ class Bot(object):
             self.web_interface.display_text(text, 10)
 
     def cmd_clip(self, target, source, message):
-        self.twitch_interface.create_clip()
+        response = self.twitch_interface.create_clip()
 
+        if response != "":
+            self.irc_interface.send_message(target, json.dumps( response) )
+
+    def cmd_marker(self, target, source, message):
+        args = self.helper_get_command_args(message)
+
+        self.twitch_interface.create_marker(args)
+
+    def cmd_settitle(self, target, source, message):
+        args = self.helper_get_command_args(message)   
+        self.twitch_interface.set_stream_info(title=args)
+
+    def cmd_setgame(self, target, source, message):
+        args = self.helper_get_command_args(message)   
+        self.twitch_interface.set_stream_info(game_id=args)
+
+    def helper_get_command_args(self, message):
+        space_position = message.find(' ')
+        if space_position > 0:
+            return message[space_position:]
+        return ""
 
     def helper_answer_question(self, target, source, message):
         channel = self.channels[target]

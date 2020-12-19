@@ -78,10 +78,8 @@ class IRCInterface(object):
         message = event.arguments[0]
         source = event.source.split("!", 1)[0]
 
-        print(event)
-
-        #print("source: " + source + " - " + str(message) )
-
+        # print(event)
+        
         self.trigger_handler(events.Events.ON_PUBLIC_MESSAGE, target, source, message )
 
     def on_userstate(self, connection, event):
@@ -126,8 +124,8 @@ class IRCInterface(object):
         connection.add_global_handler("join", self.on_join)
         connection.add_global_handler("disconnect", self.on_disconnect)
         connection.add_global_handler("pubmsg", self.on_pubmsg)
-        connection.add_global_handler("all_events", self.on_events) 
-        connection.add_global_handler("userstate", self.on_userstate) 
+        #connection.add_global_handler("all_events", self.on_events) 
+        #connection.add_global_handler("userstate", self.on_userstate) 
         #connection.add_global_handler("privmsg", on_privmsg)
         #connection.add_global_handler("namreply", on_namreply)
         #connection.add_global_handler("all_raw_messages", on_raw_messages)

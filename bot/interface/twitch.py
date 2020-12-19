@@ -22,6 +22,11 @@ class TwitchInterface(object):
         self.user_token_refresh_code = 0
         self.scopes = [ "clips:edit", "channel:manage:broadcast", "channel:read:subscription", "user:edit", "user:edit:follows", "user:read:broadcast" ]
         self.registered_callback_url = "https://northridge.deckard.fr:8080/twitch_callback" # todo: must be a setting
+        
+        self.channel_language = ""
+        self.channel_title = ""
+        self.channel_game_id = ""
+
         self.database = database.JsonDatabase("twitch")
         self.load()
         
@@ -158,6 +163,8 @@ class TwitchInterface(object):
         print("---------- OAuth URL Token END --------------")
 
     def setup_stream_info(self):
+        print("--- setup_stream_info ---")
+
         url = "https://api.twitch.tv/helix/streams"
 
         query_string = {}
@@ -167,18 +174,58 @@ class TwitchInterface(object):
         stream_info = response["data"][0]
         self.stream_id = stream_info["id"]
         self.user_id = stream_info["user_id"]
+        self.channel_language = stream_info["language"]
+        self.channel_title = stream_info["title"]
+        self.channel_game_id = stream_info["game_id"]
 
     def create_clip(self):
+        print("--- create_clip ---")
+
         url = "https://api.twitch.tv/helix/clips"
 
         query_string = {}
-        query_string["broadcaster_id"] = self.stream_id
+        query_string["broadcaster_id"] = self.user_id
         query_string["has_delay"] = True
+
+        response = requests.post(url, headers=self.get_client_auth_header(), params=query_string).json()
+
+        if "status" in response and response["status"] != 200:
+            print("--- create_clip FAILED --- {}".format(response))
+            return response
+
+        clip_url = response["data"][0]["edit_url"]
+        clip_url = clip_url[:-len("/edit")]
+
+        return clip_url
+
+    def create_marker(self, description):
+        print("--- create_marker ---")
+
+        url = "https://api.twitch.tv/helix/streams/markers"
+
+        query_string = {}
+        query_string["user_id"] = self.user_id
+        query_string["description"] = description
 
         response = requests.post(url, headers=self.get_client_auth_header(), params=query_string).json()
         print(response)
 
+    def set_stream_info(self, title="", game_id=""):
+        print("--- set_stream_info ---")
 
+        url = "https://api.twitch.tv/helix/channels"
+
+        query_string = {}
+        query_string["broadcaster_id"] = self.user_id     
+
+        data = {}
+        if title != "":
+            data["title"] = title
+        if game_id != "":
+            data["game_id"] = game_id
+
+        response = requests.patch(url, headers=self.get_client_auth_header(), params=query_string, json=data).json()
+        print(response)
 
 
 
