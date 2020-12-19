@@ -106,5 +106,5 @@ def server_static(filepath):
 
 # certfile='./static/MyCert.pem', keyfile='./static/key.pem'
 def run():
-    bottle.run(app, host='localhost', port=8080, debug=True, reloader=False)
+    bottle.run(app, host='0.0.0.0', port=8080, debug=True, reloader=False)
 

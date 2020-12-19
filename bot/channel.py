@@ -23,19 +23,19 @@ class Channel(object):
             ),
             question.Question(
                 'Mûr à point, l’été il est fauché, fauché, on l’est de n’en point avoir.',
-                'Le blé'
+                'blé'
             ),
             question.Question(
                 'C’est un petit air léger qui nous ravit l’été, sans « R », elle est glaciale, car plutôt hivernale.',
-                'La brise'
+                'brise'
             ),
             question.Question(
                 'On la tourne pour avancer, mais quand on l’est, cela signifie « être branché ».',
-                'La page'
+                'page'
             ),
             question.Question(
                 'C’est la partie intégrante d’un pont, le rendre, c’est en avoir ras le bol, contre les taches, c’est une protection.',
-                'Le tablier'
+                'tablier'
             )
         ))
         #self.greeter = greeter.Greeter()

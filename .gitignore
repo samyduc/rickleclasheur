@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 secrets/twitch.py
+local/*.json
 *.ogg
 *.mp3
 *.jpg

@@ -19,16 +19,11 @@ class Question(object):
 class Questioner(object):
     def __init__(self):
         self.winner = None
-        # The set of questions the questionner has
         self._questions = set()
-        # The set of questions not asked yet
         self._available_questions = set()
-        # The current question
         self.current_question = None
         now = time.monotonic()
-        # The time when the last question was asked
         self._asked_time = now
-        # The time from which it is too late to answer
         self._expiration = now
 
     def is_question_running(self):
