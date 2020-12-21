@@ -62,7 +62,9 @@ class Questioner(object):
             self.stop_question(None)
             return False
 
-        if answer == self.current_question.answer:
+        answer_split = answer.split()
+
+        if self.current_question.answer in answer_split:
             self.stop_question(source)
             return True
 

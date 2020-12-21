@@ -22,7 +22,7 @@ class TwitchInterface(object):
         self.user_token_expiry_time = 0
         self.user_token_refresh_code = 0
         self.scopes = [ "clips:edit", "channel:manage:broadcast", "channel:read:subscription", "user:edit", "user:edit:follows", "user:read:broadcast" ]
-        self.registered_callback_url = web + "/twitch_callback"
+        self.registered_callback_url = web.WEB_DOMAIN + "/twitch_callback"
         
         self.channel_language = ""
         self.channel_title = ""
