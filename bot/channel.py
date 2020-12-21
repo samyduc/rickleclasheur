@@ -27,7 +27,7 @@ class Channel(object):
             ),
             question.Question(
                 'C’est un petit air léger qui nous ravit l’été, sans « R », elle est glaciale, car plutôt hivernale.',
-                'brise'
+                'bise'
             ),
             question.Question(
                 'On la tourne pour avancer, mais quand on l’est, cela signifie « être branché ».',

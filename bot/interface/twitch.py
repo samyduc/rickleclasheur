@@ -3,6 +3,7 @@ import requests
 import time
 
 from bot import database
+from secrets import web
 
 class TwitchInterface(object):
     def __init__(self, username, channel_name, app_id, app_token, user_code):
@@ -21,7 +22,7 @@ class TwitchInterface(object):
         self.user_token_expiry_time = 0
         self.user_token_refresh_code = 0
         self.scopes = [ "clips:edit", "channel:manage:broadcast", "channel:read:subscription", "user:edit", "user:edit:follows", "user:read:broadcast" ]
-        self.registered_callback_url = "https://northridge.deckard.fr:8080/twitch_callback" # todo: must be a setting
+        self.registered_callback_url = web + "/twitch_callback"
         
         self.channel_language = ""
         self.channel_title = ""
