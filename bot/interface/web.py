@@ -4,14 +4,15 @@ import json
 import random
 import requests
 
+from secrets import web
 
 class WebInterface(object):
     def __init__(self):
         self.next_id = 0
         self.events = []
 
-        self.url_queue = "http://localhost:8080/queue"
-        self.url_hype_queue = "http://localhost:8080/hypequeue"
+        self.url_queue = web.WEB_DOMAIN + "/queue"
+        self.url_hype_queue = web.WEB_DOMAIN + "/hypequeue"
 
     def get_next_id(self):
         # make thread safe !!!

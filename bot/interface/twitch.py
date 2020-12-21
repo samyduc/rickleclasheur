@@ -89,11 +89,14 @@ class TwitchInterface(object):
     def setup_user_credentials(self):
         print("--- setup_user_credentials ---")
 
+        # just to know which url to push to refresh the token
+        self.setup_user_credentials_oauth()
+
         if self.user_token != "":
             self.refresh_user_credentials()
             return
 
-        self.setup_user_credentials_oauth()
+        #self.setup_user_credentials_oauth()
         self.setup_user_credential_token()
 
     def setup_user_credential_token(self):
@@ -171,12 +174,16 @@ class TwitchInterface(object):
         query_string["user_login"] = self.channel_name
 
         response = requests.get(url, headers=self.get_server_auth_header(), params=query_string).json()
-        stream_info = response["data"][0]
-        self.stream_id = stream_info["id"]
-        self.user_id = stream_info["user_id"]
-        self.channel_language = stream_info["language"]
-        self.channel_title = stream_info["title"]
-        self.channel_game_id = stream_info["game_id"]
+
+        data = response["data"]
+
+        if len(data) > 0:
+            stream_info = data[0]
+            self.stream_id = stream_info["id"]
+            self.user_id = stream_info["user_id"]
+            self.channel_language = stream_info["language"]
+            self.channel_title = stream_info["title"]
+            self.channel_game_id = stream_info["game_id"]
 
     def create_clip(self):
         print("--- create_clip ---")

@@ -1,12 +1,9 @@
-import web.web
-
-
-
-
-
+import web.app
 
 
 if __name__ == "__main__":
-    web.web.run()
+    web.app.run_dev()
+else:
+    app = application = web.app.get_app()
 
 
