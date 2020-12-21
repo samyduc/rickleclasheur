@@ -69,12 +69,12 @@ class WebInterface(object):
         command["timeout"] = duration * 1000 # ms
         command["votes"] = votes
 
-        requests.post(self.url_hype_queue, json=command )
+        requests.post(self.url_hype_queue, json=command, verify=False )
 
     def flush_events(self):
         print("flush events " + str( len( self.events ) ))
         if len( self.events ) > 0:
             
-            requests.post(self.url_queue, json=self.events)
+            requests.post(self.url_queue, json=self.events, verify=False)
 
             self.events = []
