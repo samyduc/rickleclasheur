@@ -3,7 +3,8 @@
 from bot.interface import  irc
 from bot import bot
 import secrets.twitch
-
+import asyncio
+import time
 
 if __name__ == "__main__":
     print("Booting ...")
@@ -24,6 +25,8 @@ if __name__ == "__main__":
     print("Running forever ...")
 
     try:
-        irc.run( forever = True )
+        while True:
+            irc.run( forever = False )
+            time.sleep(0.01)
     except KeyboardInterrupt:
         pass

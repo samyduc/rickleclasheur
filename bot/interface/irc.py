@@ -52,7 +52,7 @@ class IRCInterface(object):
             handler(*args)
 
     def on_connect(self, connection, event):
-        print("onConnect")
+        print("IRCInterface - onConnect")
 
         self.connection = connection
 
@@ -60,7 +60,7 @@ class IRCInterface(object):
             self.connection.join( channel )
 
     def on_join(self, connection, event):
-        print("onJoin")
+        #print("onJoin")
 
         self.connection = connection
 

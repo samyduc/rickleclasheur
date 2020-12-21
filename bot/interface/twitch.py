@@ -1,9 +1,12 @@
 
-import requests
+
 import time
 
 from bot import database
 from secrets import web
+import requests
+
+import urllib.parse
 
 class TwitchInterface(object):
     def __init__(self, username, channel_name, app_id, app_token, user_code):
@@ -21,7 +24,7 @@ class TwitchInterface(object):
         self.user_token = ""
         self.user_token_expiry_time = 0
         self.user_token_refresh_code = 0
-        self.scopes = [ "clips:edit", "channel:manage:broadcast", "channel:read:subscription", "user:edit", "user:edit:follows", "user:read:broadcast" ]
+        self.scopes = [ "clips:edit", "channel:manage:broadcast", "channel:read:subscriptions", "user:edit", "user:edit:follows", "user:read:broadcast" ]
         self.registered_callback_url = web.WEB_DOMAIN + "/twitch_callback"
         
         self.channel_language = ""
@@ -67,6 +70,22 @@ class TwitchInterface(object):
      
         return headers
 
+    def get_scope_string(self):
+        scopes = ""
+        for scope in self.scopes:
+            scopes += scope + ' '
+
+        if len(scopes) > 0:
+            scopes = scopes[:-1]
+
+        return scopes
+
+    def url_encode_query_string(self, query_string):
+        url_encoded = urllib.parse.urlencode(query_string)
+        url_encoded = url_encoded.replace('+', '%20')
+
+        return url_encoded
+
     def setup_credentials(self):
         self.setup_app_credentials()
         self.setup_user_credentials()
@@ -80,9 +99,12 @@ class TwitchInterface(object):
         query_string["client_id"] = self.app_id
         query_string["client_secret"] = self.app_token
         query_string["grant_type"] = "client_credentials"
-        query_string["scope"] = self.scopes
+        query_string["scope"] = self.get_scope_string()
 
-        response = requests.post(url, params=query_string).json()
+        url_encoded = self.url_encode_query_string(query_string)
+
+        response = requests.post(url, data=url_encoded).json()
+
         self.access_token = response["access_token"]
         self.access_token_expiry_time = response["expires_in"] + time.time()
         self.access_token_type = response["token_type"]
@@ -158,9 +180,11 @@ class TwitchInterface(object):
         query_string["client_id"] = self.app_id
         query_string["redirect_uri"] = self.registered_callback_url
         query_string["response_type"] = "code"
-        query_string["scope"] = self.scopes
+        query_string["scope"] = self.get_scope_string()
 
-        response = requests.get(url, params=query_string)
+        url_encoded = self.url_encode_query_string(query_string)
+
+        response = requests.get(url + "?" + url_encoded, params=url_encoded)
 
         print("---------- OAuth URL Token BEGIN --------------")
         print(response.url)

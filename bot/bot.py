@@ -9,9 +9,11 @@ import secrets
 #from . import audio
 from .interface import web
 from .interface import twitch
+from .interface import discord
 from .channel import Channel
 
 from secrets import twitch as twitch_secret
+from secrets import discord as discord_secret
 
 import time
 from datetime import datetime
@@ -22,9 +24,12 @@ class Bot(object):
         self.irc_interface = None
         #self.audio_interface = audio.SoundInterface()
         self.web_interface = web.WebInterface()
+
         self.twitch_interface = twitch.TwitchInterface( twitch_secret.USERNAME, "ricklesauceur", twitch_secret.APP_ID, twitch_secret.APP_TOKEN, twitch_secret.USER_CODE )
         self.twitch_interface.setup_credentials()
         self.twitch_interface.setup_stream_info()
+
+        self.discord_interface = discord.DiscordInterface( discord_secret.BOT_TOKEN )
 
         self.dialog_engine = dialog.DialogEngine( secrets.twitch.USERNAME )
 

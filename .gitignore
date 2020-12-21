@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 secrets/twitch.py
 secrets/web.py
+secrets/discord.py
 local/*.json
 *.ogg
 *.mp3
