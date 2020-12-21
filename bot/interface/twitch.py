@@ -24,7 +24,7 @@ class TwitchInterface(object):
         self.user_token = ""
         self.user_token_expiry_time = 0
         self.user_token_refresh_code = 0
-        self.scopes = [ "clips:edit", "channel:manage:broadcast", "channel:read:subscriptions", "user:edit", "user:edit:follows", "user:read:broadcast" ]
+        self.scopes = [ "clips:edit", "channel:manage:broadcast", "user:edit:broadcast", "channel:read:subscriptions", "user:edit", "user:edit:follows", "user:read:broadcast" ]
         self.registered_callback_url = web.WEB_DOMAIN + "/twitch_callback"
         
         self.channel_language = ""
