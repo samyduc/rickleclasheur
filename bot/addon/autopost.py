@@ -8,8 +8,11 @@ class AutoPost:
         self.last_publish_timestamp = 0
 
     def is_ready(self, now):
-        return now <= ( self.last_publish_timestamp + self.delay )
+        return now >= ( self.last_publish_timestamp + self.delay )
 
+    def set_publish_timestamp(self, now):
+        self.last_publish_timestamp = now
+    
     def is_cmd(self):
         return self.message.startswith("!")
 
@@ -17,10 +20,8 @@ class AutoPosts:
     def __init__(self):
         self.posts = []
 
-    def get_ready_posts(self):
+    def get_ready_posts(self, now):
         posts = []
-
-        now = time.time()
 
         for post in self.posts:
             if post.is_ready(now):

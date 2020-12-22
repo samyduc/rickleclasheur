@@ -62,14 +62,17 @@ class Channel:
         posts = []
         target = self.name
 
+        now = time.time()
+
         if self.autopost:
-            posts = self.autopost.get_ready_posts()
+            posts = self.autopost.get_ready_posts(now)
         
         for post in posts:
             if post.is_cmd():
                 self.bot.on_public_message(target, "", post.message)
             else:
-                self.bot.irc_interface.send_message(target, post.message) # need to be tunable
+                self.bot.irc_interface.send_message(target, post.message) # need to be tunable (to send over web or discord)
+            post.set_publish_timestamp(now)
 
     def tick(self):
         self.process_autopost()
