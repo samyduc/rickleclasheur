@@ -36,7 +36,7 @@ class DialogEngine(object):
             "t'es rien moche toi t'es",
         ]
 
-        self.vipsWatch = { "maisyzx", "crizx", "kikiknowss", "cyqop", "azeria__", "ricklesauceur", "mesryah" }
+        self.vipsWatch = { "maisyzx", "crizx", "kikiknowss", "azeria__", "ricklesauceur", "mesryah" }
         self.vipsWatch.add(self.my_name)
 
         self.customResponseOnTrigger = {

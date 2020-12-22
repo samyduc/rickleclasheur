@@ -227,7 +227,6 @@ class TwitchInterface(object):
 
         clip_url = response["data"][0]["edit_url"]
         clip_url = clip_url[:-len("/edit")]
-
         return clip_url
 
     def create_marker(self, description):
@@ -255,6 +254,8 @@ class TwitchInterface(object):
             data["title"] = title
         if game_id != "":
             data["game_id"] = game_id
+
+        print(data)
 
         response = requests.patch(url, headers=self.get_client_auth_header(), params=query_string, json=data).json()
         print(response)

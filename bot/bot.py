@@ -30,6 +30,7 @@ class Bot(object):
         self.twitch_interface.setup_stream_info()
 
         self.discord_interface = discord.DiscordInterface( discord_secret.BOT_TOKEN )
+        self.discord_interface.run()
 
         self.dialog_engine = dialog.DialogEngine( secrets.twitch.USERNAME )
 
@@ -219,7 +220,8 @@ class Bot(object):
         response = self.twitch_interface.create_clip()
 
         if response != "":
-            self.irc_interface.send_message(target, json.dumps( response) )
+            self.irc_interface.send_message(target, response )
+            self.discord_interface.send_clip( response )
 
     def cmd_marker(self, target, source, message):
         args = self.helper_get_command_args(message)
@@ -237,7 +239,7 @@ class Bot(object):
     def helper_get_command_args(self, message):
         space_position = message.find(' ')
         if space_position > 0:
-            return message[space_position:]
+            return message[space_position+1:]
         return ""
 
     def helper_answer_question(self, target, source, message):
