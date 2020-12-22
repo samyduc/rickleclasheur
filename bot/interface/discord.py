@@ -10,9 +10,8 @@ client = discord.Client()
 
 @client.event
 async def on_ready():
-    print('We have logged in as {0.user}'.format(client))
+    print('discord - logged in as {0.user}'.format(client))
     client.app.post_init()
-
 
 class DiscordInterface(object):
     def __init__(self, token):
