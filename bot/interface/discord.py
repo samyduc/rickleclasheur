@@ -13,7 +13,7 @@ async def on_ready():
     print('discord - logged in as {0.user}'.format(client))
     client.app.post_init()
 
-class DiscordInterface(object):
+class DiscordInterface:
     def __init__(self, token):
         self.client = client
         client.app = self

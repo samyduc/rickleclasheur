@@ -6,7 +6,7 @@ from .addon import question
 from .addon import voter
 from .addon import greeter
 
-class Channel(object):
+class Channel:
     def __init__(self, name):
         self.name = name
         self.users = {}
@@ -54,7 +54,7 @@ class Channel(object):
         return [] 
 
 
-class User(object):
+class User:
     def __init__(self, name):
         self.name = name
         self.join_time = time.time()

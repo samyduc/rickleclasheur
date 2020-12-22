@@ -2,7 +2,7 @@ import vlc
 
 import os
 
-class SoundInterface(object):
+class SoundInterface:
     def __init__(self):
         self.instance = vlc.Instance()
         self.player = self.instance.media_player_new()

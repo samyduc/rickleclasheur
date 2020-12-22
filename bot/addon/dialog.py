@@ -8,13 +8,12 @@ class DialogCache(object):
     def __init__(self):
         pass
 
-class DialogUser(object):
+class DialogUser:
     def __init__(self, name):
         self.name = name
         self.mood = len(DialogMood.MOOD) / 2
 
-class DialogEngine(object):
-
+class DialogEngine:
     def __init__(self, my_name):
 
         self.my_name = my_name

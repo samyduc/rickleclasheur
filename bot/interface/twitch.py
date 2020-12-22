@@ -8,7 +8,7 @@ import requests
 
 import urllib.parse
 
-class TwitchInterface(object):
+class TwitchInterface:
     def __init__(self, username, channel_name, app_id, app_token, user_code):
         self.channel_id = ""
         self.channel_name = channel_name

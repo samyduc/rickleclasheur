@@ -2,7 +2,7 @@
 import time
 import random
 
-class Question(object):
+class Question:
     def __init__(self, question: str, answer: str):
         self.question = question
         self.answer = answer
@@ -16,7 +16,7 @@ class Question(object):
         return hash(self.question)
 
 
-class Questioner(object):
+class Questioner:
     def __init__(self):
         self.winner = None
         self._questions = set()

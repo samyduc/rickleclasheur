@@ -19,7 +19,7 @@ import time
 from datetime import datetime
 import json
 
-class Bot(object):
+class Bot:
     def __init__(self):
         self.irc_interface = None
         #self.audio_interface = audio.SoundInterface()

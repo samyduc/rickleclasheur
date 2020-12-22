@@ -4,7 +4,7 @@
 import time
 
 
-class Greeter(object):
+class Greeter:
     def __init__(self):
         self.should_greet = False
         self.to_greets_time = 0

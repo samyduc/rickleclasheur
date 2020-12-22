@@ -3,7 +3,7 @@
 import time
 
 
-class Voter(object):
+class Voter:
     def __init__(self, default_duration, tags):
         self.votes = dict.fromkeys(tags)
         self.start_time = 0

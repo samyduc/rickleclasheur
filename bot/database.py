@@ -2,7 +2,7 @@
 import os
 import json
 
-class JsonDatabase(object):
+class JsonDatabase:
     def __init__(self, name):
         self.root_dir = os.path.abspath("./local/")
         self.name = name

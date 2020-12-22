@@ -6,7 +6,7 @@ import requests
 
 from secrets import web
 
-class WebInterface(object):
+class WebInterface:
     def __init__(self):
         self.next_id = 0
         self.events = []

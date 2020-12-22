@@ -10,7 +10,7 @@ THROTTLE_MESSAGE_TIME = 30
 THROTTLE_MESSAGE_COUNT = 20 - 1
 # 100 per 30 if moderator
 
-class IRCInterface(object):
+class IRCInterface:
     def __init__(self, username, app_id, token, channels):
         self.channels = [ '#' + channel for channel in channels ]
         self.username = username
