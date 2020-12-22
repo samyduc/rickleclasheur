@@ -76,7 +76,7 @@ class Bot:
 
     def process_user(self, target, source):
         if target not in self.channels:
-            self.channels[target] = Channel(target)
+            self.channels[target] = Channel(self, target)
 
         channel = self.channels[target]
 
@@ -265,3 +265,9 @@ class Bot:
     def start(self):
         self.irc_interface.add_handler(events.Events.ON_JOIN, self.on_join)
         self.irc_interface.add_handler(events.Events.ON_PUBLIC_MESSAGE, self.on_public_message)
+
+    def tick(self):
+        # everything that need polling here
+        for channel in self.channels.values():
+            channel.tick()
+

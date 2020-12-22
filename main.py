@@ -27,6 +27,7 @@ if __name__ == "__main__":
     try:
         while True:
             irc.run( forever = False )
+            bot.tick()
             time.sleep(0.01)
     except KeyboardInterrupt:
         pass

@@ -5,16 +5,21 @@ import time
 from .addon import question
 from .addon import voter
 from .addon import greeter
+from .addon import autopost
 
 class Channel:
-    def __init__(self, name):
+    def __init__(self, bot, name):
         self.name = name
         self.users = {}
+        self.bot = bot
 
         self.hype_voter = voter.Voter(30, ["clutch", "choke"])
         self.hype_voter.is_unique_vote = False
 
         self.questioner = question.Questioner()
+        self.autopost = autopost.AutoPosts()
+        self.autopost.add_post( "!discord", 500 )
+        self.autopost.add_post( "!twitter", 500 )
 
         self.questioner.load_questions((
             question.Question(
@@ -52,6 +57,22 @@ class Channel:
         if self.greeter:
             return self.greeter.greet()
         return [] 
+
+    def process_autopost(self):
+        posts = []
+        target = self.name
+
+        if self.autopost:
+            posts = self.autopost.get_ready_posts()
+        
+        for post in posts:
+            if post.is_cmd():
+                self.bot.on_public_message(target, "", post.message)
+            else:
+                self.bot.irc_interface.send_message(target, post.message) # need to be tunable
+
+    def tick(self):
+        self.process_autopost()
 
 
 class User:
